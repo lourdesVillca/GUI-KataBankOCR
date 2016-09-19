@@ -23,8 +23,13 @@ public class BankORC {
         numberData.put(0, " _ | ||_|");
     }
 
+    private BankORC() {
+
+    }
+
     /**
      * Method to Parse the number read from the file
+     *
      * @param number the string number
      * @return the parse number
      */
@@ -32,12 +37,11 @@ public class BankORC {
         String numberLine1 = number.substring(0, 27);
         String numberLine2 = number.substring(27, 54);
         String numberLine3 = number.substring(54);
-        String result;
         StringBuilder formatNumber = new StringBuilder();
 
         for (int i = 0; i < numberLine1.length() - 2; i += 3) {
-            result = numberLine1.substring(i, i + 3) + numberLine2.substring(i, i + 3) + numberLine3.substring(i, i + 3);
-            formatNumber = (getKeysForNumber(result) == -1)?formatNumber.append("?"):formatNumber.append(getKeysForNumber(result));
+            String result = numberLine1.substring(i, i + 3) + numberLine2.substring(i, i + 3) + numberLine3.substring(i, i + 3);
+            formatNumber = (getKeysForNumber(result) == -1) ? formatNumber.append("?") : formatNumber.append(getKeysForNumber(result));
 
         }
         return formatNumber.toString();
@@ -45,6 +49,7 @@ public class BankORC {
 
     /**
      * Method that search the key for a given Value
+     *
      * @param value the number expression in String format
      * @return the key of the value if the given value doesn't exist return -1
      */
@@ -59,13 +64,14 @@ public class BankORC {
 
     /**
      * Validate if the given account is valid
-     * @param accountNumber
+     *
+     * @param accountNumber account number to validate
      * @return true if the account is valid
      */
     public static boolean validateAccountNumber(String accountNumber) {
         int checksum = 0;
         for (int i = 0; i < accountNumber.length(); i++) {
-            checksum += Character.getNumericValue(accountNumber.charAt(i))*(accountNumber.length()-i);
+            checksum += Character.getNumericValue(accountNumber.charAt(i)) * (accountNumber.length() - i);
         }
         return checksum % 11 == 0;
     }

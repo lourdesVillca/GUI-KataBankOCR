@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class BankORCTest {
     @Test
-    public void test_parseAllNumbers(){
+    public void test_parseAllNumbers() {
         final StringBuilder number = new StringBuilder();
         number.append("    _  _     _  _  _  _  _ ");
         number.append("  | _| _||_||_ |_   ||_||_|");
@@ -19,25 +19,35 @@ public class BankORCTest {
         String result = BankORC.parseNumber(number.toString());
         assertEquals("123456789", result);
     }
+
     @Test
-    public void test_validAccountNumber(){
-        String accountNumber = "345882865";
+    public void test_validAccountNumber() {
+        final String accountNumber = "345882865";
         boolean actualResult = BankORC.validateAccountNumber(accountNumber);
         assertTrue(actualResult);
     }
+
     @Test
-    public void test_invalidAccountNumber(){
-        String accountNumber = "664371495";
+    public void test_invalidAccountNumber() {
+        final String accountNumber = "664371495";
         boolean actualResult = BankORC.validateAccountNumber(accountNumber);
         assertFalse(actualResult);
     }
+
     @Test
-    public void test_illegibleAccountNumber(){
+    public void test_illegibleAccountNumber() {
         final StringBuilder number = new StringBuilder();
         number.append("    _  _  _  _  _  _     _ ");
         number.append("|_||_|| || ||_   |  |  | _ ");
         number.append("  | _||_||_||_|  |  |  | _|");
         String result = BankORC.parseNumber(number.toString());
         assertEquals("49006771?", result);
+    }
+
+    @Test
+    public void test_getTheKeyForANumber() {
+        final String numberToValidate = " _  _||_ ";
+        final int result = BankORC.getKeysForNumber(numberToValidate);
+        assertEquals(2, result);
     }
 }
