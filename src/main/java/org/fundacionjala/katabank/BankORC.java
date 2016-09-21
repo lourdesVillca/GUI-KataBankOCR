@@ -38,14 +38,19 @@ public class BankORC {
         String numberLine2 = number.substring(27, 54);
         String numberLine3 = number.substring(54);
         StringBuilder formatNumber = new StringBuilder();
-
         for (int i = 0; i < numberLine1.length() - 2; i += 3) {
             String result = numberLine1.substring(i, i + 3) + numberLine2.substring(i, i + 3) + numberLine3.substring(i, i + 3);
             formatNumber = (getKeysForNumber(result) == -1) ? formatNumber.append("?") : formatNumber.append(getKeysForNumber(result));
 
         }
+        if(String.valueOf(formatNumber).contains("?")){
+            formatNumber.append(" ILL");
+        }else if(!validateAccountNumber(formatNumber.toString())){
+            formatNumber.append(" ERR");
+        }
         return formatNumber.toString();
     }
+    
 
     /**
      * Method that search the key for a given Value

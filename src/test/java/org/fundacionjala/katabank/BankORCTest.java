@@ -19,7 +19,15 @@ public class BankORCTest {
         String result = BankORC.parseNumber(number.toString());
         assertEquals("123456789", result);
     }
-
+    @Test
+    public void test_parseInvalidAccountNumber() {
+        final StringBuilder number = new StringBuilder();
+        number.append(" _  _     _  _        _  _ ");
+        number.append("|_ |_ |_| _|  |  ||_||_||_ ");
+        number.append("|_||_|  | _|  |  |  | _| _|");
+        String result = BankORC.parseNumber(number.toString());
+        assertEquals("664371495 ERR", result);
+    }
     @Test
     public void test_validAccountNumber() {
         final String accountNumber = "345882865";
@@ -41,7 +49,7 @@ public class BankORCTest {
         number.append("|_||_|| || ||_   |  |  | _ ");
         number.append("  | _||_||_||_|  |  |  | _|");
         String result = BankORC.parseNumber(number.toString());
-        assertEquals("49006771?", result);
+        assertEquals("49006771? ILL", result);
     }
 
     @Test
