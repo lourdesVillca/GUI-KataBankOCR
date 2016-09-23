@@ -9,6 +9,9 @@ import java.util.Map;
 public class BankORC {
 
     private static final Map<Integer, String> numberData = new HashMap<Integer, String>();
+    private static final String ILLEGIBLE_CHARACTER = "?";
+    private static final String ILL = " ILL";
+    private static final String ERR = " ERR";
 
     static {
         numberData.put(1, "     |  |");
@@ -40,17 +43,25 @@ public class BankORC {
         StringBuilder formatNumber = new StringBuilder();
         for (int i = 0; i < numberLine1.length() - 2; i += 3) {
             String result = numberLine1.substring(i, i + 3) + numberLine2.substring(i, i + 3) + numberLine3.substring(i, i + 3);
-            formatNumber = (getKeysForNumber(result) == -1) ? formatNumber.append("?") : formatNumber.append(getKeysForNumber(result));
-
+            formatNumber = (getKeysForNumber(result) == -1) ? formatNumber.append(ILLEGIBLE_CHARACTER) : formatNumber.append(getKeysForNumber(result));
         }
-        if(String.valueOf(formatNumber).contains("?")){
-            formatNumber.append(" ILL");
-        }else if(!validateAccountNumber(formatNumber.toString())){
-            formatNumber.append(" ERR");
+        return generateFormatNumber(formatNumber);
+    }
+
+    /**
+     * Method to generate the correct format for a parsed account number
+     *
+     * @param formatNumber parsed account number
+     * @return the parsed number account
+     */
+    public static String generateFormatNumber(StringBuilder formatNumber) {
+        if (String.valueOf(formatNumber).contains(ILLEGIBLE_CHARACTER)) {
+            formatNumber.append(ILL);
+        } else if (!validateAccountNumber(formatNumber.toString())) {
+            formatNumber.append(ERR);
         }
         return formatNumber.toString();
     }
-    
 
     /**
      * Method that search the key for a given Value

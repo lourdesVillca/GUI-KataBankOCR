@@ -19,6 +19,7 @@ public class BankORCTest {
         String result = BankORC.parseNumber(number.toString());
         assertEquals("123456789", result);
     }
+
     @Test
     public void test_parseInvalidAccountNumber() {
         final StringBuilder number = new StringBuilder();
@@ -28,6 +29,7 @@ public class BankORCTest {
         String result = BankORC.parseNumber(number.toString());
         assertEquals("664371495 ERR", result);
     }
+
     @Test
     public void test_validAccountNumber() {
         final String accountNumber = "345882865";
@@ -57,5 +59,26 @@ public class BankORCTest {
         final String numberToValidate = " _  _||_ ";
         final int result = BankORC.getKeysForNumber(numberToValidate);
         assertEquals(2, result);
+    }
+
+    @Test
+    public void test_generateFormatNumberForValidAccountNumber() {
+        final StringBuilder accountNumber = new StringBuilder("457508000");
+        final String result = BankORC.generateFormatNumber(accountNumber);
+        assertEquals("457508000", result);
+    }
+
+    @Test
+    public void test_generateFormatNumberForInvalidAccountNumber() {
+        final StringBuilder accountNumber = new StringBuilder("664371495");
+        final String result = BankORC.generateFormatNumber(accountNumber);
+        assertEquals("664371495 ERR", result);
+    }
+
+    @Test
+    public void test_generateFormatNumberForAccountNumberWithIllegibleCharacters() {
+        final StringBuilder accountNumber = new StringBuilder("86110??36");
+        final String result = BankORC.generateFormatNumber(accountNumber);
+        assertEquals("86110??36 ILL", result);
     }
 }
